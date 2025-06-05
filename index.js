@@ -18,8 +18,8 @@ app.post('/send', async (req, res) => {
     const { token, tokens, title, body } = req.body;
 
     try {
-        // ✅ If multiple tokens are provided
-        if (tokens && Array.isArray(tokens)) {
+        // ✅ Send to multiple tokens
+        if (tokens && Array.isArray(tokens) && tokens.length > 0) {
             const multicastMessage = {
                 notification: { title, body },
                 tokens: tokens,
@@ -28,7 +28,7 @@ app.post('/send', async (req, res) => {
             const response = await admin.messaging().sendMulticast(multicastMessage);
             res.status(200).send({ success: true, response });
 
-            // ✅ Fallback: if a single token is provided
+        // ✅ Fallback: single token
         } else if (token) {
             const singleMessage = {
                 notification: { title, body },
