@@ -29,11 +29,11 @@ app.post('/send', async (req, res) => {
     const validTokens = (tokens || []).filter(t => typeof t === 'string' && t.trim().length > 0);
     if (validTokens.length > 0) {
       const multicastMessage = {
-        notification: { title, body },
         tokens: validTokens,
+        message: { title, body } ,
       };
 
-      const response = await admin.messaging().sendMulticast(multicastMessage);
+      const response = await admin.messaging().sendEachForMulticast(multicastMessage);
       return res.status(200).send({ success: true, response });
     }
 
