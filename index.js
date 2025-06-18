@@ -29,9 +29,13 @@ app.post('/send', async (req, res) => {
     const validTokens = (tokens || []).filter(t => typeof t === 'string' && t.trim().length > 0);
     if (validTokens.length > 0) {
       const multicastMessage = {
-        tokens: validTokens,
-        message: { title, body } ,
-      };
+  tokens: validTokens,
+  notification: {
+    title: title,
+    body: body,
+  },
+};
+
 
       const response = await admin.messaging().sendEachForMulticast(multicastMessage);
       return res.status(200).send({ success: true, response });
